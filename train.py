@@ -198,13 +198,9 @@ class ConditionalMeanFlowLoss:
 def generate_1step(model, sar_img):
     model.eval()
     device = sar_img.device
-    # 1. 采样初始噪声
     noise = torch.randn(sar_img.shape[0], 3, sar_img.shape[2], sar_img.shape[3]).to(device)
-    # 2. 拼接条件
     net_input = torch.cat([noise, sar_img], dim=1)
-    # 3. 设置时间为 1.0 (完全噪声状态)
     t = torch.ones(sar_img.shape[0]).to(device)
-    # 4. 预测速度并一步回退到 x0
     v_pred = model(net_input, t, h_time=t)
     x0 = noise - v_pred
     return x0.clamp(-1, 1)
@@ -240,15 +236,12 @@ def main():
             
             pbar.set_description(f"Epoch {epoch} | Loss: {loss.item():.4f}")
 
-        # 每个 Epoch 结束后保存一次并预览
         if epoch % 5 == 0:
             torch.save(model.state_dict(), f"mf_sar2rgb_epoch_{epoch}.pt")
-            # 预览第一个样本
             test_sar = sar[0:1]
             test_gt = rgb[0:1]
             gen_rgb = generate_1step(model, test_sar)
             
-            # 可视化 (反归一化)
             plt.figure(figsize=(10, 4))
             plt.subplot(1,3,1); plt.imshow(test_sar[0,0].cpu()*0.5+0.5, cmap='gray'); plt.title("SAR")
             plt.subplot(1,3,2); plt.imshow((gen_rgb[0].cpu().permute(1,2,0)*0.5+0.5).numpy()); plt.title("Generated")
