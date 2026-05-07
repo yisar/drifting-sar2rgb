@@ -7,10 +7,6 @@ from torch.utils.data import DataLoader, Dataset
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ==========================================
-# 1. 模型定义 (SITS-BERT)
-# ==========================================
-
 class ObservationEmbedding(nn.Module):
     def __init__(self, input_dim, embed_dim):
         super(ObservationEmbedding, self).__init__()
@@ -47,9 +43,6 @@ class SITSBERT(nn.Module):
         x = self.transformer(x)
         return self.output_layer(x)
 
-# ==========================================
-# 2. 数据集类 (适配 r1-r6, g1-g6... 结构)
-# ==========================================
 
 class SITSDatasetCSV(Dataset):
     def __init__(self, csv_path):
@@ -74,9 +67,6 @@ class SITSDatasetCSV(Dataset):
     def __getitem__(self, idx):
         return self.data[idx], self.doy_values
 
-# ==========================================
-# 3. 可视化 Demo 逻辑
-# ==========================================
 
 def run_visual_demo(csv_path, model_path, row_idx=0):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -133,9 +123,6 @@ def run_visual_demo(csv_path, model_path, row_idx=0):
     plt.tight_layout()
     plt.show()
 
-# ==========================================
-# 4. 执行
-# ==========================================
 
 if __name__ == "__main__":
     CSV_FILE = "data.csv"
