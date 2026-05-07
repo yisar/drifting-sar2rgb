@@ -22,6 +22,33 @@ https://ieeexplore.ieee.org/document/9252123 （Self-Supervised Pretraining of T
 4. 模型使用
 作为 encoder 进行使用，负责将时序编码为向量，最终适配下游任务（分类分割检测等）
 
+#### 模型结构
+
+```shell
+SITSBERT(
+  (embedding): ObservationEmbedding(
+    (spectral_embed): Linear(in_features=4, out_features=64, bias=True)
+  )
+  (transformer): TransformerEncoder(
+    (layers): ModuleList(
+      (0-3): 4 x TransformerEncoderLayer(
+        (self_attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=128, out_features=128, bias=True)
+        )
+        (linear1): Linear(in_features=128, out_features=256, bias=True)
+        (dropout): Dropout(p=0.1, inplace=False)
+        (linear2): Linear(in_features=256, out_features=128, bias=True)
+        (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        (dropout1): Dropout(p=0.1, inplace=False)
+        (dropout2): Dropout(p=0.1, inplace=False)
+      )
+    )
+  )
+  (output_layer): Linear(in_features=128, out_features=4, bias=True)
+)
+```
+
 #### 小组成员：
 
 赵昌浩（2025303120178）

@@ -139,4 +139,4 @@ def train_sits_bert(csv_file_path):
     print("模型保存成功。")
 
 if __name__ == "__main__":
-    train_sits_bert("combined_data.csv")
+    train_sits_bert("data.csv")
