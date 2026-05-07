@@ -1,15 +1,26 @@
 #### 复现论文 
 
-https://arxiv.org/pdf/2505.13447 （Mean Flows for One-step Generative Modeling）
+https://ieeexplore.ieee.org/document/9252123 （Self-Supervised Pretraining of Transformers for Satellite Image Time Series Classification）
 
 #### 前情提要：
-何凯明团队发的一篇文章，使用meanflow算法，可以将原先的多步生成变为单步生成，极大地改变了当前 diffusion，flow matching 图像生成算法的现状
+遥感时序的一篇文章，主要做了两件事
+1. 使用 bert-like 的思路，对时序进行自监督掩码训练
+2. 在此基础上进行分类
 
-而且从原理方面，将所有图像生成问题概括到了 drifting field 问题，可解释性很强，原理透明简单，这一类模型之后也被称为“drifting model”
+#### 复刻过程
 
-这个仓库就是使用类似的算法，将遥感 SAR 影像转变为彩色 RGB 图像，我们组主要研究遥感卫星相关
+1. 自制数据集
+通过 https://www.planet.com 进行时序数据集制作，区域为武汉襄阳，此处感谢 @Liuhai626
+数据集截图如下：
 
-值得一提的是，在此之前，diffusion 一个很重要的方向就是 DMD 蒸馏，目的是通过蒸馏减少步数，现在 drifting 出来后，直接杀死比赛，没得蒸了
+2. 数据集处理
+对时序数据集进行采样，将4个波段RGBNIR进行拼接，作为特征输入，见 data.csv
+
+3. 模型构建
+整体架构类似 bert，双向注意力，对时序进行掩码，监督目标是预测完整时序，最终训练学习
+
+4. 模型使用
+作为 encoder 进行使用，负责将时序编码为向量，最终适配下游任务（分类分割检测等）
 
 #### 小组成员：
 
