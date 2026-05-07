@@ -4,8 +4,8 @@ https://ieeexplore.ieee.org/document/9252123 （Self-Supervised Pretraining of T
 
 #### 前情提要：
 遥感时序的一篇文章，主要做了两件事
-1. 使用 bert-like 的思路，对时序进行自监督掩码训练
-2. 文章中对模型进行微调，适配分类任务
+1. 使用 bert-like 的思路，对时序进行自监督掩码训练（复现重点）
+2. 文章中对预训练权重进行微调，适配分类任务（并不复现）
 
 P.S. bert 的训练思路非常适合用作 encoder，而不是微调，由于剧情需要，趁机复刻这篇论文，并用于后续实验
 
